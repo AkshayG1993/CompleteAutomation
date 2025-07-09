@@ -1,0 +1,11 @@
+{
+  "endpoints": {
+    "getAllUsers": "/api/users?page=%d",
+    "getUserById": "/api/users/%d",
+    "createUser": "/api/users",
+    "registerUser": "/api/register",
+    "updateUser": "/api/users/%d",
+    "deleteUser" : "/api/users/%d",
+    "loginUser": "/api/login"
+  }
+}
