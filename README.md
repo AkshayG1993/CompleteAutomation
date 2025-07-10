@@ -1,25 +1,42 @@
-# CompleteAutomation
-This Project is been created to demonstrate the entire automation capability both on frontend and backend
-Here is a complete `README.md` for this project
 
-```
-# ReqRes Automation Project
+# CompleteAutomation Project
 
 ## Overview
-
-This project automates both frontend (UI) and backend (API) testing for the ReqRes and saucedemo application using Java, Maven, Selenium, Cucumber, TestNG, and RestAssured. It provides robust validation of user flows and API endpoints, with integrated reporting.
+Automated testing project for the SourceDemo web application (frontend) and Reqres.in public APIs (backend) using Java, Maven, Selenium, Cucumber, and Extent Reports.
 
 ---
 
 ## Table of Contents
+- \[Tech Stack\]
+- \[Project Structure\]
+- \[Setup Instructions\]
+- \[Running Tests\]
+- \[Reporting\]
+- \[Frontend Automation\]
+- \[Backend API Testing\]
+- \[Contributing\]
+- \[License\]
 
-- [Project Structure](#project-structure)
-- [Tech Stack](#tech-stack)
-- [Setup Instructions](#setup-instructions)
-- [Test Organization](#test-organization)
-- [How to Run Tests](#how-to-run-tests)
-- [Best Practices](#best-practices)
-- [Contributing](#contributing)
+---
+
+## Tech Stack
+
+**Frontend:**
+- Java
+- Selenium WebDriver
+- Cucumber (BDD)
+- Page Object Model (POM)
+- SourceDemo website (UI under test)
+
+**Backend:**
+- Java
+- RestAssured
+- Cucumber (BDD)
+- Reqres.in APIs
+
+**Common:**
+- Maven
+- Extent Reports
 
 ---
 
@@ -27,36 +44,18 @@ This project automates both frontend (UI) and backend (API) testing for the ReqR
 
 ```
 src/
-  main/
-    java/
   test/
     java/
-      com/
-        sourcedemo/
-          automation/
-            LoginFeatureTest.java
-            StepDefinitions/
-            Hooks/
-        reqres/
-          automation/
-            api/
+      com.sourcedemo.automation/
+        StepDefinitions/      # Step definitions for UI and API
+        Hooks/                # Test hooks, reporting, plugins
+        Runner/               # Cucumber test runners
+        Utils/                # Utilities (ExtentManager, etc.)
     resources/
-      features/
-        login.feature
-testng.xml
-pom.xml
+      features/               # Cucumber feature files (UI & API)
+pom.xml                       # Maven build file
+README.md                     # Project documentation
 ```
-
----
-
-## Tech Stack
-
-- Java 17+
-- Maven
-- Selenium WebDriver
-- Cucumber (BDD)
-- TestNG
-- RestAssured
 
 ---
 
@@ -65,7 +64,7 @@ pom.xml
 1. **Clone the repository:**
    ```
    git clone <your-repo-url>
-   cd <project-directory>
+   cd sourcedemo-automation
    ```
 
 2. **Install dependencies:**
@@ -73,52 +72,52 @@ pom.xml
    mvn clean install
    ```
 
-3. **Configure environment:**
-   - Update `config.properties` for environment-specific values (URLs, credentials, etc.).
-   - Ensure ChromeDriver/GeckoDriver is available in your system PATH.
+3. **WebDriver setup:**
+   - Update driver configuration in `BaseSteps.java` or use WebDriverManager.
+
+4. **API setup:**
+   - No authentication required for Reqres.in; endpoints are public.
 
 ---
 
-## Test Organization
+## Running Tests
 
-- **Frontend (UI) Automation:**  
-  - Entry point: `LoginFeatureTest.java`  
-  - Feature files: `src/test/resources/features/login.feature`  
-  - Step definitions: `com.sourcedemo.automation.StepDefinitions`
+- **Run all tests:**
+  ```
+  mvn test
+  ```
 
-- **Backend (API) Automation:**  
-  - Entry point: `testng.xml`  
-  - Test classes: `com.reqres.automation.api.*`
-
----
-
-## How to Run Tests
-
-### Frontend (UI) Tests
-
-Run all Cucumber UI scenarios:
-```
-mvn test -Dcucumber.options="--tags @Login"
-```
-
-### Backend (API) Tests
-
-Run all API tests via TestNG suite:
-```
-mvn test -DsuiteXmlFile=testng.xml
-```
+- **Run specific feature:**
+  ```
+  mvn test -Dcucumber.options="src/test/resources/features/login.feature"
+  ```
 
 ---
 
+## Reporting
 
-## Best Practices
+- **Extent Reports** are generated after test execution.
+- Default location: `test-output/ExtentReport.html` (configurable in `ExtentManager.java`).
 
-- Use clear package structure for UI and API tests.
-- Parameterize tests using TestNG `@DataProvider`.
-- Store static test data in `src/test/resources`.
-- Use configuration files for environment variables.
-- Keep tests independent and maintainable.
-- Use base classes for common setup/teardown logic.
+---
+
+## Frontend Automation
+
+- **Target:** SourceDemo website.
+- **Tools:** Selenium WebDriver, Cucumber, POM.
+- **Features:** UI scenarios written in Gherkin.
+- **Step Definitions:** Located in `StepDefinitions/`.
+- **Hooks:** Reporting and screenshot capture in `Hooks/ExtentHooks.java`.
+
+---
+
+## Backend API Testing
+
+- **Target:** Reqres.in public REST APIs.
+- **Tools:** RestAssured, Cucumber.
+- **Features:** API scenarios in Gherkin.
+- **Step Definitions:** Located in `StepDefinitions/`.
+- **No authentication required.**
 
 ---
 
@@ -127,6 +126,19 @@ mvn test -DsuiteXmlFile=testng.xml
 1. Fork the repository.
 2. Create a feature branch.
 3. Commit your changes.
-4. Open a pull request.
+4. Submit a pull request.
 
 ---
+
+## License
+
+MIT License.
+
+---
+
+**Contact:**  
+Open an issue for support or questions.
+
+---
+
+Replace `<your-repo-url>` with your actual repository URL. Update sections as needed for your project specifics.
