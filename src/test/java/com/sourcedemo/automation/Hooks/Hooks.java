@@ -54,8 +54,14 @@ public class Hooks {
 
         if (latestReport != null) {
             try {
-                Process process = new ProcessBuilder("/usr/bin/open", latestReport.getAbsolutePath()).start();
-                process.waitFor(); // Wait for the process to complete
+                String os = System.getProperty("os.name").toLowerCase();
+                Process process;
+                if (os.contains("win")) {
+                    process = new ProcessBuilder("cmd", "/c", "start", latestReport.getAbsolutePath()).start();
+                } else {
+                    process = new ProcessBuilder("/usr/bin/open", latestReport.getAbsolutePath()).start();
+                }
+                process.waitFor();
             } catch (IOException | InterruptedException e) {
                 e.printStackTrace();
             }
