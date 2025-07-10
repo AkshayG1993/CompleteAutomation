@@ -1,10 +1,17 @@
 package com.sourcedemo.automation.Hooks;
 
 import com.sourcedemo.automation.StepDefinitions.BaseSteps;
+import com.sourcedemo.automation.Utils.ExtentManager;
 import io.cucumber.java.After;
+import io.cucumber.java.AfterAll;
 import io.cucumber.java.Before;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.Comparator;
 
 public class Hooks {
     @Before
@@ -17,9 +24,44 @@ public class Hooks {
 
     @After
     public void tearDown() {
-        if (BaseSteps.getDriver() != null) {
-            BaseSteps.getDriver().quit();
+        WebDriver driver = BaseSteps.getDriver();
+        if (driver != null) {
+            driver.quit();
             BaseSteps.setDriver(null);
         }
+    }
+
+    @AfterAll
+    public static void openLatestExtentReport() {
+        // Flush the Extent report
+        ExtentManager.getInstance().flush();
+
+        File reportDir = new File("test-output");
+        if (!reportDir.exists() || !reportDir.isDirectory()) {
+            System.err.println("Report directory not found: " + reportDir.getAbsolutePath());
+            return;
+        }
+
+        File[] htmlFiles = reportDir.listFiles((dir, name) -> name.toLowerCase().endsWith(".html"));
+        if (htmlFiles == null || htmlFiles.length == 0) {
+            System.err.println("No HTML report files found in: " + reportDir.getAbsolutePath());
+            return;
+        }
+
+        File latestReport = Arrays.stream(htmlFiles)
+                .max(Comparator.comparingLong(File::lastModified))
+                .orElse(null);
+
+        if (latestReport != null) {
+            try {
+                Process process = new ProcessBuilder("/usr/bin/open", latestReport.getAbsolutePath()).start();
+                process.waitFor(); // Wait for the process to complete
+            } catch (IOException | InterruptedException e) {
+                e.printStackTrace();
+            }
+        } else {
+            System.err.println("Could not determine the latest report file.");
+        }
+
     }
 }

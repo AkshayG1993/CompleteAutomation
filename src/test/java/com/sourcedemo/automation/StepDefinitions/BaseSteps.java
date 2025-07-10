@@ -9,21 +9,23 @@ import java.time.Duration;
 
 public class BaseSteps {
 
-    private static ThreadLocal<WebDriver> threadLocalDriver = new ThreadLocal<>();
+    public static ThreadLocal<WebDriver> threadLocalDriver = new ThreadLocal<>();
     public static Actions actions;
     public WebDriverWait wait;
     public WebDriver driver;
+    public static final String baseUrl = "https://www.saucedemo.com/";
+    public static final String inventoryPageUrl = "https://www.saucedemo.com/inventory.html";
 
     public BaseSteps() {
-        if (threadLocalDriver.get() == null) {
+        driver = getDriver();
+        if (driver == null) {
             driver = new ChromeDriver();
             // Initialize WebDriver here, e.g., with a DriverFactory
             driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
-             threadLocalDriver.set(driver);
-//            throw new IllegalStateException("WebDriver not initialized. Set it before using BaseSteps.");
+            threadLocalDriver.set(driver);
         }
-        actions = new Actions(threadLocalDriver.get());
-        wait = new WebDriverWait(threadLocalDriver.get(), Duration.ofSeconds(10));
+        actions = new Actions(driver);
+        wait = new WebDriverWait(driver, Duration.ofSeconds(10));
     }
 
     public static WebDriver getDriver() {

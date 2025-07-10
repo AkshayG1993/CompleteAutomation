@@ -14,7 +14,6 @@ public class BaseTest {
     public static Actions actions;
     WebDriverWait wait;
 
-    @BeforeMethod
     public void setUp() {
         WebDriver webDriver = new ChromeDriver();
         webDriver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
@@ -27,7 +26,6 @@ public class BaseTest {
         return driver.get();
     }
 
-    @AfterMethod
     public void tearDown() {
         if (driver.get() != null) {
             driver.get().quit();
