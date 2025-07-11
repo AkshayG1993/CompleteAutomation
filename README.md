@@ -3,7 +3,7 @@
 
 ## Overview
 Automated testing project for the SourceDemo web application (frontend) and Reqres.in public APIs (backend) using Java, Maven, Selenium, Cucumber, and Extent Reports.
-
+Recorded loom video: https://loom.com/share/folder/7eae8b650c85444ba7bdd3a8b961b44c
 ---
 
 ## Table of Contents
