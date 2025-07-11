@@ -5,7 +5,6 @@ import com.reqres.pojos.requestPojos.RegisterUser;
 import com.reqres.pojos.requestPojos.UpdateUser;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
-import org.apache.http.HttpStatus;
 
 import static com.reqres.utils.Utility.getEndpoint;
 import static com.reqres.utils.Utility.getJsonBody;

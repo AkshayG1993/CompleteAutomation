@@ -2,13 +2,17 @@ package com.saucedemo.POJOS;
 
 import lombok.Data;
 import lombok.extern.log4j.Log4j2;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.util.Comparator;
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
 
 import static java.time.Duration.ofSeconds;
 import static org.openqa.selenium.support.PageFactory.initElements;
@@ -86,4 +90,94 @@ public class InventoryPage {
             return false;
         }
     }
+
+    public boolean isSortedByNameAsc() {
+        List<WebElement> productElements = getProductNameElements();
+        List<String> names = productElements.stream()
+                .map(WebElement::getText)
+                .collect(Collectors.toList());
+        List<String> sortedNames = names.stream()
+                .sorted()
+                .collect(Collectors.toList());
+        log.info("Names: {}", names);
+        log.info("Sorted names for Asc: {}", sortedNames);
+        return names.equals(sortedNames);
+    }
+
+    public boolean isSortedByNameDesc() {
+        List<WebElement> productElements = getProductNameElements();
+        List<String> names = productElements.stream()
+                .map(WebElement::getText)
+                .collect(Collectors.toList());
+        List<String> sortedNames = names.stream()
+                .sorted(Comparator.reverseOrder())
+                .collect(Collectors.toList());
+        log.info("Names: {}", names);
+        log.info("Sorted names for Desc: {}", sortedNames);
+        return names.equals(sortedNames);
+    }
+
+    public boolean isSortedByPriceDesc() {
+        List<WebElement> productElements = getProductPriceElements();
+        List<Double> prices = productElements.stream()
+                .map(element -> Double.parseDouble(element.getText().replace("$", "")))
+                .collect(Collectors.toList());
+        List<Double> sortedPrices = prices.stream()
+                .sorted(Comparator.reverseOrder())
+                .collect(Collectors.toList());
+        log.info("Prices: {}", prices);
+        log.info("Sorted prices for Desc: {}", sortedPrices);
+        return prices.equals(sortedPrices);
+    }
+
+    public boolean isSortedByPriceAsc() {
+        List<WebElement> productElements = getProductPriceElements();
+        List<Double> prices = productElements.stream()
+                .map(element -> Double.parseDouble(element.getText().replace("$", "")))
+                .collect(Collectors.toList());
+        List<Double> sortedPrices = prices.stream()
+                .sorted()
+                .collect(Collectors.toList());
+        log.info("Prices: {}", prices);
+        log.info("Sorted prices for Asc: {}", sortedPrices);
+        return prices.equals(sortedPrices);
+    }
+
+    private List<WebElement> getProductPriceElements() {
+        return getDriver().findElements(By.cssSelector(".inventory_item_price"));
+    }
+
+    // Helper to get product name elements
+    private List<WebElement> getProductNameElements() {
+        // Replace with your actual locator
+        return getDriver().findElements(By.cssSelector(".inventory_item_name"));
+    }
+
+    public boolean allItemsHaveNamePriceImage() {
+        log.info("Checking if all items have name, price, and image");
+        for (WebElement item : inventoryItems) {
+            WebElement nameElement = item.findElement(By.cssSelector(".inventory_item_name"));
+            WebElement priceElement = item.findElement(By.cssSelector(".inventory_item_price"));
+            WebElement imageElement = item.findElement(By.cssSelector(".inventory_item_img"));
+
+            if (nameElement.getText().isEmpty() || priceElement.getText().isEmpty() || !imageElement.isDisplayed()) {
+                log.error("Item is missing name, price, or image: {}", item.getText());
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public void addOrRemoveProductToCart(String productName) {
+        List<WebElement> items = getDriver().findElements(By.cssSelector(".inventory_item"));
+        for (WebElement item : items) {
+            String name = item.findElement(By.cssSelector(".inventory_item_name")).getText();
+            if (name.equalsIgnoreCase(productName)) {
+                item.findElement(By.cssSelector("button.btn_inventory")).click();
+                return;
+            }
+        }
+        throw new NoSuchElementException("Product not found: " + productName);
+    }
+
 }

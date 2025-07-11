@@ -1,6 +1,5 @@
 package com.sourcedemo.automation.StepDefinitions;
 
-import com.saucedemo.POJOS.InventoryPage;
 import com.saucedemo.POJOS.LoginPage;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
@@ -16,18 +15,18 @@ public class LoginSteps extends BaseSteps {
     private LoginPage loginPage;
 
     @Given("the user try to open the inventory page without login")
-    public void theUserTryToOpenTheInventoryPageWithoutLoggingIn(){
+    public void theUserTryToOpenTheInventoryPageWithoutLoggingIn() {
         getDriver().get(inventoryPageUrl);
     }
 
     @Given("the login page should be loaded")
-    public void theLoginPageShouldBeLoaded(){
+    public void theLoginPageShouldBeLoaded() {
         assertEquals(getDriver().getCurrentUrl(), baseUrl, "User is not on the login page");
         loginPage = new LoginPage(getDriver());
     }
 
     @Given("the user is on the login page")
-    public void theUserIsOnTheLoginPage(){
+    public void theUserIsOnTheLoginPage() {
         getDriver().get(baseUrl);
         loginPage = new LoginPage(getDriver());
     }
@@ -44,7 +43,7 @@ public class LoginSteps extends BaseSteps {
 
     @Then("the user should still be in login page")
     public void theUserShouldStillBeInLoginPage() {
-        assertEquals(getDriver().getCurrentUrl(),"https://www.saucedemo.com/","User is not on the login page");
+        assertEquals(getDriver().getCurrentUrl(), "https://www.saucedemo.com/", "User is not on the login page");
     }
 
     @Then("the error message should be displayed {string}")

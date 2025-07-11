@@ -1,8 +1,6 @@
 package com.reqres.automation;
 
 import com.reqres.pojos.requestPojos.CreateUser;
-import com.reqres.pojos.requestPojos.RegisterUser;
-import com.reqres.pojos.requestPojos.UpdateUser;
 import com.reqres.pojos.responsePojos.CreateUserResponse;
 import com.reqres.pojos.responsePojos.GetAllUsers;
 import helper.ApiHelper;
@@ -11,10 +9,6 @@ import org.testng.annotations.BeforeMethod;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.reqres.utils.Utility.*;
-import static org.apache.http.HttpStatus.SC_CREATED;
-import static org.testng.Assert.assertEquals;
 
 public class BaseTest {
     public List<Integer> userIds = new ArrayList<>();

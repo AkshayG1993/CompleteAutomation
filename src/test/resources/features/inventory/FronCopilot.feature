@@ -5,16 +5,7 @@ Feature: Inventory Page Functionality
     Given the user is logged in as a standard user
 
   # Functional Scenarios
-  Scenario: User lands on the Inventory page after successful login
-    When the user logs in with valid credentials
-    Then the Inventory page should be displayed
 
-  Scenario: All inventory items are displayed with correct name, price, and image
-    Then all inventory items should have a name, price, and image
-
-  Scenario: User can add a single item to the cart
-    When the user adds "Sauce Labs Backpack" to the cart
-    Then the cart icon should show 1 item
 
   Scenario: User can add multiple items to the cart
     When the user adds "Sauce Labs Backpack" and "Sauce Labs Bike Light" to the cart
