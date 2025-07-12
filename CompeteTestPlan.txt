@@ -1,4 +1,4 @@
-# Test Plan: SourceDemo Automation Suite
+# Test Plan: Complete Automation Suite demonstrating both frontend and backend automation
 
 ## 1\. Objective
 
